@@ -2,7 +2,7 @@ import os
 import logging
 import yaml
 
-from flask import Flask, render_template, url_for, g, session, flash, redirect, request
+from flask import Flask, render_template, url_for, g, session, flash, redirect, request, jsonify
 from flask.ext.markdown import Markdown
 # from flask.ext import restful
 # from flask.ext.restful import reqparse, Api

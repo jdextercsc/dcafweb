@@ -13,5 +13,27 @@
         <hr>
         <button type="submit" class="btn btn-default" id="hanlonURLTestButton">Test Connection</button>
     </form>
+
+    <script type=text/javascript>
+        $(function() {
+            $('#hanlonURLTestButton').bind('click', function() {
+                testURL = $('#hanlonURL').val();
+                console.log("Attempting request to: " + testURL);
+                $.ajax({
+                    url: testURL,
+                    type: 'GET',
+                    dataType: 'jsonp',
+                    crossDomain: true,
+                })
+                .done(function(data) {
+                    console.log(data);
+                })
+                .fail(function() {
+                    console.log("Failed to connect to Hanlon API");
+                })
+                return false;
+            })
+        })
+    </script>
 </div>
 {% endblock content %}

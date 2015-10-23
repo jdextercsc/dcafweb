@@ -1,7 +1,9 @@
 import os
 import logging
+import yaml
 
 from flask import Flask, render_template, url_for, g, session, flash, redirect, request
+from flask.ext.markdown import Markdown
 # from flask.ext import restful
 # from flask.ext.restful import reqparse, Api
 # from flask.ext.sqlalchemy import SQLAlchemy
@@ -13,6 +15,8 @@ basedir = os.path.join(os.path.abspath(os.path.dirname(__file__)), '../')
 app = Flask(__name__)
 app.config.from_object('app.config')
 app.secret_key = '"*\x995\x9a\xf9\xf2\x13z\xd3\x9c=\x18u\xef\xf8\x90WD\xa3\xe5\xe1\x19\xb7'
+
+md = Markdown(app, extensions = ['codehilite'])
 
 logging.basicConfig(level=logging.DEBUG)
 
@@ -82,7 +86,7 @@ def load_session_from_cookie():
     else:
         # check to see if we're navigating to a step without the API defined
         if request.path != '/':
-            flash("Hanlon API endpoint not defined.", "warning")
+            #flash("Hanlon API endpoint not defined.", "warning")
             logging.debug("Request path: %s", str(request.path))
         g.hanlonDefined = False
         logging.debug("Handlon URL is not defined!")
@@ -146,7 +150,16 @@ def hosts(debug=None):
 
 @app.route('/group_vars')
 def group_vars():
-    return render_template('group_vars.html')
+    # this section can be removed after testing, purely for page layout purposes now
+    try:
+        sampleFile = yaml.load(file(basedir + 'tmp/all.yml', 'r'))
+        logging.debug(sampleFile)
+    except Exception as e:
+        flash('Could not open sample file.', 'danger')
+        logging.error("%s", str(e))
+    ############################
+
+    return render_template('group_vars.html', configFile = sampleFile)
 
 @app.route('/host_vars')
 def host_vars():

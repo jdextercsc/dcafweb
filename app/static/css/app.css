@@ -1,0 +1,13 @@
+/* Changing colors of task list */
+
+li.active.list-group-item {
+    background-color: #7BC2FF;
+}
+
+#task-list a {
+    color: black;
+}
+
+#task-list-header {
+    font-weight: bold;
+}

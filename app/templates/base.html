@@ -5,6 +5,7 @@
 
 
         <link href="/static/css/bootstrap.min.css" rel="stylesheet">
+        <link href="/static/css/app.css" rel="stylesheet">
         <script src="/static/js/jquery.min.js"></script>
 
         <script src="/static/js/bootstrap.min.js"></script>
@@ -32,18 +33,23 @@
         </nav>
 
     <div class="col-md-3">
-        {% set nav_steps = g.deploy_steps %}
-        {% set active_page = active_page|default('base') %}
+        <div class="panel panel-default" data-spy="affix" data-offset-top="100" data-offset-bottom="200">
+            {% set nav_steps = g.deploy_steps %}
+            {% set active_page = active_page|default('base') %}
 
-        <ul class="list-group">
-            {% for step in nav_steps %}
-            <li{% if step['id'] == active_page %} class="active list-group-item"{% endif %} class="list-group-item"><a href="{{ step['url']|e }}">{{ step['name']|e }}</a></li>
-            {% endfor %}
-        </ul>
+            <div class="panel-heading" id="task-list-header">
+                Deployment Tasks
+            </div>
+
+            <ul class="list-group" id="task-list">
+                {% for step in nav_steps %}
+                <li{% if step['id'] == active_page %} class="active list-group-item"{% endif %} class="list-group-item"><a href="{{ step['url']|e }}">{{ step['name']|e }}</a></li>
+                {% endfor %}
+            </ul>
+        </div>
     </div>
 
     <div class="col-md-9">
-        {% if messages is defined %}
             {% with messages = get_flashed_messages(with_categories=true) %}
             {% if messages %}
             <ul class=flashes>
@@ -56,7 +62,7 @@
             </ul>
             {% endif %}
             {% endwith %}
-        {% endif %}
+
 
         {% block content %}
         {% endblock %}
